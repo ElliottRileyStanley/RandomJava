@@ -7,11 +7,11 @@ public class test {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setUndecorated(true);
         window.setVisible(true);
-        window.setSize(300, 300);
+        window.setSize(540, 960);
         Graphics g = window.getGraphics();
         double x = 100;
         double y = 200;
-        double xspeed = 1;
+        double xspeed = 5;
         double yspeed = 1;
         while (true) {
             try {
@@ -22,13 +22,26 @@ public class test {
             g.fillRect(0, 0, 300, 300);
             g.setColor(Color.black);
             g.fillOval((int)x-5, (int)y-5, 10, 10);
-            if (x >= 295 || x <= 5) {
-                xspeed *= -0.9;
+            if (x > 295) {
+                xspeed *= -0.8;
+                x = 295;
+            } else if (x < 5) {
+                xspeed *= -0.8;
+                x = 5;
             }
-            if (y >= 295 || y <= 5) {
-                yspeed *= -0.9;
+            if (y > 295) {
+                yspeed *= -0.8;
+                y = 295;
+            } else if (y < 5) {
+                yspeed *= -0.8;
+                y = 5;
             }
-            x -= 0.1;
+            if (xspeed > 0) {
+                xspeed -= 0.005;
+            } else if (xspeed < 0) {
+                xspeed += 0.005;
+            }
+            yspeed += 0.05;
             x += xspeed;
             y += yspeed;
         }
