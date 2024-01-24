@@ -34,13 +34,12 @@ public class test {
         Graphics g = window.getGraphics();
 
         ArrayList<ball> balls = new ArrayList<ball>();
-        balls.add(new ball(150.0, 150.0, 1.0, 1.0, 255, 150, 0));
-        balls.add(new ball(150.0, 150.0, 1.0, -1.0, 255, 0, 150));
-        System.out.println(balls.get(0).y);
-
+        for (int i = 0; i < 100; i++) { 
+            balls.add(new ball(150.0, 150.0, Math.random() * 10, Math.random() * 10, 0, 0, 0));
+        }
         while (true) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(16);
             } catch (InterruptedException e) {
             }
 
@@ -55,9 +54,9 @@ public class test {
                     balls.get(i).xspeed *= -0.8;
                     balls.get(i).x = 5;
                 }
-                if (balls.get(i).y > 960) {
+                if (balls.get(i).y > 955) {
                     balls.get(i).yspeed *= -0.8;
-                    balls.get(i).y = 960;
+                    balls.get(i).y = 955;
                 } else if (balls.get(i).y < 5) {
                     balls.get(i).yspeed *= -0.8;
                     balls.get(i).y = 5;
@@ -67,7 +66,7 @@ public class test {
                 } else if (balls.get(i).xspeed < 0) {
                     balls.get(i).xspeed += 0.005;
                 }
-                balls.get(i).yspeed += 0.05;
+                balls.get(i).yspeed += 0.16;
                 balls.get(i).x += balls.get(i).xspeed;
                 balls.get(i).y += balls.get(i).yspeed;
                 g.setColor(new Color(balls.get(i).red, balls.get(i).green, balls.get(i).blue));
