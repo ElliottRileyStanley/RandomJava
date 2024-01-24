@@ -30,6 +30,9 @@ class border {
     double y1;
     double x2;
     double y2;
+    double a;
+    double b;
+    double c;
     double slope;
     double bouncy;
     border(double x1, double y1, double x2, double y2, double bouncy) {
@@ -38,6 +41,9 @@ class border {
         this.x2 = x2;
         this.y2 = y2;
         this.slope = -(y2 - y1)/(x2 - x1);
+        double a = -x1 * slope;
+        double b = 1;
+        double c = y1 + x1 * slope;
         this.bouncy = bouncy;
     }
 }
@@ -94,7 +100,7 @@ public class test {
                     balls.get(i).xspeed += 0.005;
                 }
                 for (int d = 0; i < borders.size(); i++) {
-
+                    if (borders.get(d).a <= balls.get(i).radius)
                 }
                 balls.get(i).yspeed += 0.16;
                 balls.get(i).x += balls.get(i).xspeed;
