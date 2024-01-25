@@ -60,10 +60,8 @@ public class test {
 
         ArrayList<ball> balls = new ArrayList<ball>();
         balls.add(new ball(30.0, 100.0, 2, 0, 30, 0, 0, 0));
-
+        balls.add(new ball(230.0, 100.0, -2, 0, 30, 0, 0, 0));
         ArrayList<border> borders = new ArrayList<border>();
-        borders.add(new border(280.0, 10.0, 300.0, 800.0, 0.8));
-        System.out.println(borders.get(0).slope);
 
         while (true) {
             try {
@@ -80,33 +78,28 @@ public class test {
             }
 
             for (int i = 0; i < balls.size(); i++) { 
-                if (balls.get(i).x > 535) {
-                    balls.get(i).xspeed *= -0.8;
-                    balls.get(i).x = 535;
-                } else if (balls.get(i).x < 5) {
-                    balls.get(i).xspeed *= -0.8;
-                    balls.get(i).x = 5;
-                }
-                if (balls.get(i).y > 955) {
-                    balls.get(i).yspeed *= -0.8;
-                    balls.get(i).y = 955;
-                } else if (balls.get(i).y < 5) {
-                    balls.get(i).yspeed *= -0.8;
-                    balls.get(i).y = 5;
-                }
                 if (balls.get(i).xspeed > 0) {
                     balls.get(i).xspeed -= 0.005;
                 } else if (balls.get(i).xspeed < 0) {
                     balls.get(i).xspeed += 0.005;
                 }
-                for (int d = 0; i < borders.size(); i++) {
-                    if (borders.get(d).a <= balls.get(i).radius)
+
+                for (int d = 0; d < balls.size(); d++) {
+                    if (i != d) {
+                        if (Math.sqrt(Math.pow((balls.get(d).x - balls.get(i).x), 2) + Math.pow((balls.get(d).y - balls.get(i).y), 2)) < balls.get(d).radius + balls.get(i).radius) {
+                            balls.get(i).xspeed = (balls.get(i).xspeed * (balls.get(i).radius - balls.get(d).radius) + 2 * balls.get(d).radius * balls.get(d).xspeed)/(balls.get(i).radius + balls.get(d).radius);
+                            balls.get(i).yspeed = (balls.get(i).yspeed * (balls.get(i).radius - balls.get(d).radius) + 2 * balls.get(d).radius * balls.get(d).yspeed)/(balls.get(i).radius + balls.get(d).radius);
+                            balls.get(d).xspeed = (balls.get(d).xspeed * (balls.get(d).radius - balls.get(i).radius) + 2 * balls.get(i).radius * balls.get(i).xspeed)/(balls.get(d).radius + balls.get(i).radius);
+                            balls.get(d).yspeed = (balls.get(d).yspeed * (balls.get(d).radius - balls.get(i).radius) + 2 * balls.get(i).radius * balls.get(i).yspeed)/(balls.get(d).radius + balls.get(i).radius);
+                        }
+                    }
                 }
+
                 balls.get(i).yspeed += 0.16;
                 balls.get(i).x += balls.get(i).xspeed;
                 balls.get(i).y += balls.get(i).yspeed;
                 g.setColor(new Color(balls.get(i).red, balls.get(i).green, balls.get(i).blue));
-                g.fillOval((int)balls.get(i).x-balls.get(i).radius, (int)balls.get(i).y-balls.get(i).radius, balls.get(i).radius, balls.get(i).radius);
+                g.fillOval((int)balls.get(i).x-balls.get(i).radius, (int)balls.get(i).y-balls.get(i).radius, balls.get(i).radius*2, balls.get(i).radius*2);
             }
         }
     }
