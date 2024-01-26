@@ -35,9 +35,10 @@ public class test {
 
         Graphics g = window.getGraphics();
 
-        ArrayList<ball> balls = new ArrayList<ball>();
-        balls.add(new ball(100.0, 100.0, 4, 1, 30, 0, 0, 0));
-        balls.add(new ball(100, 200, 4, 0, 30, 0, 0, 0));
+        ArrayList<ball> oldBalls = new ArrayList<ball>();
+        ArrayList<ball> newBalls = new ArrayList<ball>();
+        oldBalls.add(new ball(100.0, 100.0, 2, 0, 30, 0, 0, 0));
+        oldBalls.add(new ball(300, 100, -2, 0, 30, 0, 0, 0));
 
 
         try {
@@ -52,37 +53,43 @@ public class test {
             } catch (InterruptedException e) {
             }
 
+            newBalls.clear();
+            newBalls.addAll(oldBalls);
+
             g.setColor(Color.white);
             g.fillRect(0, 0, 540, 960);
 
-            for (int i = 0; i < balls.size(); i++) { 
-                for (int d = i + 1; d < balls.size(); d++) {
+            for (int i = 0; i < oldBalls.size(); i++) { 
+                for (int d = 0; d < oldBalls.size(); d++) {
                     if (i != d) {
-                        if (Math.sqrt(Math.pow(balls.get(i).x - balls.get(d).x, 2) + Math.pow(balls.get(i).y - balls.get(d).y, 2)) < balls.get(i).radius + balls.get(d).radius) {
-                            double xDistance = Math.abs(balls.get(i).x - balls.get(d).x);
-                            double yDistance = Math.abs(balls.get(i).y - balls.get(i).y);
-                            ball remember = new ball(0.0, 0.0, balls.get(i).xspeed, balls.get(i).yspeed, 0, 0, 0, 0);
-                            balls.get(i).xspeed = balls.get(i).xspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + balls.get(d).xspeed * 0.8;
-                            balls.get(i).yspeed = balls.get(i).yspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + balls.get(d).yspeed * 0.8;
-                            balls.get(d).xspeed = balls.get(d).xspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + remember.xspeed * 0.8;
-                            balls.get(d).yspeed = balls.get(d).yspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + remember.yspeed * 0.8;
+                        if (Math.sqrt(Math.pow(oldBalls.get(i).x - oldBalls.get(d).x, 2) + Math.pow(oldBalls.get(i).y - oldBalls.get(d).y, 2)) < oldBalls.get(i).radius + oldBalls.get(d).radius) {
+                            double xDistance = Math.abs(oldBalls.get(i).x - oldBalls.get(d).x);
+                            double yDistance = Math.abs(oldBalls.get(i).y - oldBalls.get(i).y);
+                            double xChange = (xDistance/2) / (xDistance/2 + yDistance/2);
+                            double yChange = (yDistance/2) / (xDistance/2 + yDistance/2);
+                            newBalls.get(i).xspeed += oldBalls.get(i).xspeed * -1.1 * xChange + oldBalls.get(d).xspeed * 0.8 * xChange;
+                            newBalls.get(i).yspeed += oldBalls.get(i).yspeed * -1.1 * yChange + oldBalls.get(d).yspeed * 0.8 * yChange;
+                            System.out.println(oldBalls.get(i).yspeed * -0.8 * yChange + oldBalls.get(d).yspeed * 0.8 * yChange);
                         }
                     }
                 }
             }
 
-            for (int i = 0; i < balls.size(); i++) { 
-                if (balls.get(i).xspeed > 0) {
-                    balls.get(i).xspeed -= 0.005;
-                } else if (balls.get(i).xspeed < 0) {
-                    balls.get(i).xspeed += 0.005;
+            for (int i = 0; i < oldBalls.size(); i++) { 
+                if (oldBalls.get(i).xspeed > 0) {
+                    newBalls.get(i).xspeed -= 0.005;
+                } else if (oldBalls.get(i).xspeed < 0) {
+                    newBalls.get(i).xspeed += 0.005;
                 }
-                balls.get(i).yspeed += 0.16;
-                balls.get(i).x += balls.get(i).xspeed;
-                balls.get(i).y += balls.get(i).yspeed;
-                g.setColor(new Color(balls.get(i).red, balls.get(i).green, balls.get(i).blue));
-                g.fillOval((int)balls.get(i).x-balls.get(i).radius, (int)balls.get(i).y-balls.get(i).radius, balls.get(i).radius*2, balls.get(i).radius*2);
+                newBalls.get(i).yspeed += 0.16;
+                newBalls.get(i).x += oldBalls.get(i).xspeed;
+                newBalls.get(i).y += oldBalls.get(i).yspeed;
+                g.setColor(new Color(newBalls.get(i).red, newBalls.get(i).green, newBalls.get(i).blue));
+                g.fillOval((int)newBalls.get(i).x-newBalls.get(i).radius, (int)newBalls.get(i).y-newBalls.get(i).radius, newBalls.get(i).radius*2, newBalls.get(i).radius*2);
             }
+
+            oldBalls.clear();
+            oldBalls.addAll(newBalls);
         }
     }
 }
