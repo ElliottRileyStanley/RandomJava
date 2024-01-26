@@ -36,8 +36,15 @@ public class test {
         Graphics g = window.getGraphics();
 
         ArrayList<ball> balls = new ArrayList<ball>();
-        balls.add(new ball(30.0, 100.0, 2, 0, 30, 0, 0, 0));
-        balls.add(new ball(230.0, 120.0, -2, 0, 30, 0, 0, 0));
+        balls.add(new ball(100.0, 100.0, 4, 1, 30, 0, 0, 0));
+        balls.add(new ball(100, 200, 4, 0, 30, 0, 0, 0));
+
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+        }
+
 
         while (true) {
             try {
@@ -49,25 +56,28 @@ public class test {
             g.fillRect(0, 0, 540, 960);
 
             for (int i = 0; i < balls.size(); i++) { 
+                for (int d = i + 1; d < balls.size(); d++) {
+                    if (i != d) {
+                        if (Math.sqrt(Math.pow(balls.get(i).x - balls.get(d).x, 2) + Math.pow(balls.get(i).y - balls.get(d).y, 2)) < balls.get(i).radius + balls.get(d).radius) {
+                            double xDistance = Math.abs(balls.get(i).x - balls.get(d).x);
+                            double yDistance = Math.abs(balls.get(i).y - balls.get(i).y);
+                            ball remember = new ball(0.0, 0.0, balls.get(i).xspeed, balls.get(i).yspeed, 0, 0, 0, 0);
+                            balls.get(i).xspeed = balls.get(i).xspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + balls.get(d).xspeed * 0.8;
+                            balls.get(i).yspeed = balls.get(i).yspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + balls.get(d).yspeed * 0.8;
+                            balls.get(d).xspeed = balls.get(d).xspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + remember.xspeed * 0.8;
+                            balls.get(d).yspeed = balls.get(d).yspeed * -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2) + remember.yspeed * 0.8;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < balls.size(); i++) { 
                 if (balls.get(i).xspeed > 0) {
                     balls.get(i).xspeed -= 0.005;
                 } else if (balls.get(i).xspeed < 0) {
                     balls.get(i).xspeed += 0.005;
                 }
                 balls.get(i).yspeed += 0.16;
-                for (int d = 0; d < balls.size(); d++) {
-                    if (i != d) {
-                        if (Math.sqrt(Math.pow(balls.get(i).x - balls.get(d).x, 2) + Math.pow(balls.get(i).y - balls.get(d).y, 2)) < balls.get(i).radius + balls.get(d).radius) {
-                            double xDistance = Math.abs(balls.get(i).x - balls.get(d).x);
-                            double yDistance = Math.abs(balls.get(i).y - balls.get(i).y);
-                            balls.get(i).xspeed *= -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2);
-                            balls.get(d).xspeed *= -0.8 * (xDistance/2) / (xDistance/2 + yDistance/2);
-                            balls.get(i).yspeed *= -0.8 * (yDistance/2) / (xDistance/2 + yDistance/2) + 1;
-                            balls.get(d).yspeed *= -0.8 * (yDistance/2) / (xDistance/2 + yDistance/2) + 1;
-                        }
-                    }
-                }
-
                 balls.get(i).x += balls.get(i).xspeed;
                 balls.get(i).y += balls.get(i).yspeed;
                 g.setColor(new Color(balls.get(i).red, balls.get(i).green, balls.get(i).blue));
