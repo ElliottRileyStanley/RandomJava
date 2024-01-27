@@ -37,8 +37,10 @@ public class test {
 
         ArrayList<ball> oldBalls = new ArrayList<ball>();
         ArrayList<ball> newBalls = new ArrayList<ball>();
-        oldBalls.add(new ball(100.0, 100.0, 2, 0, 30, 0, 0, 0));
-        oldBalls.add(new ball(300, 100, -2, 0, 30, 0, 0, 0));
+        oldBalls.add(new ball(300.0, 100.0, -2, 0, 30, 0, 0, 0));
+        oldBalls.add(new ball(100, 100, 2, 0, 30, 0, 0, 0));
+
+        newBalls.addAll(oldBalls);
 
 
         try {
@@ -46,15 +48,11 @@ public class test {
         } catch (InterruptedException e) {
         }
 
-
         while (true) {
             try {
-                Thread.sleep(16);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
             }
-
-            newBalls.clear();
-            newBalls.addAll(oldBalls);
 
             g.setColor(Color.white);
             g.fillRect(0, 0, 540, 960);
@@ -67,14 +65,12 @@ public class test {
                             double yDistance = Math.abs(oldBalls.get(i).y - oldBalls.get(i).y);
                             double xChange = (xDistance/2) / (xDistance/2 + yDistance/2);
                             double yChange = (yDistance/2) / (xDistance/2 + yDistance/2);
-                            newBalls.get(i).xspeed += oldBalls.get(i).xspeed * -1.1 * xChange + oldBalls.get(d).xspeed * 0.8 * xChange;
-                            newBalls.get(i).yspeed += oldBalls.get(i).yspeed * -1.1 * yChange + oldBalls.get(d).yspeed * 0.8 * yChange;
-                            System.out.println(oldBalls.get(i).yspeed * -0.8 * yChange + oldBalls.get(d).yspeed * 0.8 * yChange);
+                            newBalls.get(i).xspeed = oldBalls.get(d).xspeed * 0.8 * xChange;
+                            System.out.println(yChange);
                         }
                     }
                 }
             }
-
             for (int i = 0; i < oldBalls.size(); i++) { 
                 if (oldBalls.get(i).xspeed > 0) {
                     newBalls.get(i).xspeed -= 0.005;
