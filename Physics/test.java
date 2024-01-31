@@ -74,10 +74,10 @@ public class test {
                         if (Math.sqrt(Math.pow(oldBalls.get(i).x - oldBalls.get(d).x, 2) + Math.pow(oldBalls.get(i).y - oldBalls.get(d).y, 2)) < oldBalls.get(i).radius + oldBalls.get(d).radius) {
                             double xDistance = Math.abs(oldBalls.get(i).x - oldBalls.get(d).x);
                             double yDistance = Math.abs(oldBalls.get(i).y - oldBalls.get(d).y);
-                            double xChange = (xDistance/2) / (xDistance/2 + yDistance/2);
-                            double yChange = (yDistance/2) / (xDistance/2 + yDistance/2);
-                            newBalls.get(i).xspeed = (oldBalls.get(d).xspeed + oldBalls.get(i).xspeed * -1) * 0.8 * xChange;
-                            newBalls.get(i).yspeed = (oldBalls.get(d).yspeed + oldBalls.get(i).yspeed * -1) * 0.8 * yChange;
+                            double xChange = (xDistance) / (xDistance + yDistance);
+                            double yChange = (yDistance) / (xDistance + yDistance);
+                            newBalls.get(i).xspeed = (oldBalls.get(d).xspeed + oldBalls.get(i).xspeed * -1) * xChange;
+                            newBalls.get(i).yspeed = (oldBalls.get(d).yspeed + oldBalls.get(i).yspeed * -1) * yChange;
                         }
                     }
                 }
