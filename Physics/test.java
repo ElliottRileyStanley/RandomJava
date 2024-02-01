@@ -48,8 +48,8 @@ public class test {
 
         ArrayList<ball> oldBalls = new ArrayList<ball>();
         ArrayList<ball> newBalls = new ArrayList<ball>();
-        oldBalls.add(new ball(100, 100, 2, -3, 30, 0, 0, 0));
-        oldBalls.add(new ball(300.0, 100.0, -2, -3, 30, 0, 0, 0));
+        oldBalls.add(new ball(300, 100, 2, 2, 30, 0, 0, 0));
+        oldBalls.add(new ball(300.0, 200.0, 2, 0, 30, 0, 0, 0));
 
         newBalls.addAll(oldBalls);
 
@@ -61,7 +61,7 @@ public class test {
 
         while (true) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(16);
             } catch (InterruptedException e) {
             }
 
@@ -76,8 +76,8 @@ public class test {
                             double yDistance = Math.abs(oldBalls.get(i).y - oldBalls.get(d).y);
                             double xChange = (xDistance) / (xDistance + yDistance);
                             double yChange = (yDistance) / (xDistance + yDistance);
-                            newBalls.get(i).xspeed = (oldBalls.get(d).xspeed + oldBalls.get(i).xspeed * -1) * xChange;
-                            newBalls.get(i).yspeed = (oldBalls.get(d).yspeed + oldBalls.get(i).yspeed * -1) * yChange;
+                            newBalls.get(i).xspeed = (oldBalls.get(d).xspeed * 0.8 + oldBalls.get(i).xspeed * -1) * xChange;
+                            newBalls.get(i).yspeed = (oldBalls.get(d).yspeed * 0.8 + oldBalls.get(i).yspeed * -1) * yChange;
                         }
                     }
                 }
