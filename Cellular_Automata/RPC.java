@@ -13,8 +13,8 @@ class panel extends JPanel {
 
 public class RPC {
 
-    public static int width = 50;
-    public static int height = 50;
+    public static int width = 500;
+    public static int height = 500;
 
     static Graphics graphics(Color[][] colors, Graphics oldGraphics) {
         Graphics newGraphics = oldGraphics.create();
