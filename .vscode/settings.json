@@ -1,3 +1,6 @@
 {
+    "java.project.referencedLibraries": [
+        "C:\\Users\\Ellio\\OneDrive\\Desktop\\Coding\\Java\\RandomJava\\maven testing\\lib\\xuggle-xuggler-2.0.322.jar"
+    ],
     "java.configuration.updateBuildConfiguration": "interactive"
 }
