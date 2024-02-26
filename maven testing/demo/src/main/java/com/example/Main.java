@@ -16,7 +16,7 @@ public class Main {
  
     private static final double FRAME_RATE = 50;
  
-    private static final int SECONDS_TO_RUN_FOR = 20;
+    private static final int SECONDS_TO_RUN_FOR = 1;
  
     private static final String outputFilename = "C:\\Users\\Ellio\\OneDrive\\Desktop\\Coding\\Java\\RandomJava\\maven testing\\test.mp4";
  
