@@ -1,20 +1,20 @@
 import java.util.*;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.KeyStroke;
 import java.awt.*;
 
 public class sodoku {
     static ArrayList<int[][]> boards = new ArrayList<>();
     static int[][] first_board = {
-        {1,0,0,0,0,0,0,6,5},
-        {3,4,2,0,7,0,1,0,0},
-        {9,0,0,8,1,4,0,7,0},
-        {0,5,0,7,0,0,8,0,3},
-        {4,9,0,1,0,0,0,0,6},
-        {0,7,0,3,4,2,0,1,0},
-        {0,0,0,0,0,6,9,5,1},
-        {6,1,9,0,0,7,0,3,0},
-        {0,0,4,0,2,1,0,0,0}};
+        {0,0,0,6,0,3,0,2,9},
+        {0,0,0,2,0,0,0,0,0},
+        {9,7,0,0,0,0,0,0,4},
+        {0,6,0,0,0,0,8,3,0},
+        {0,0,8,0,0,7,9,4,0},
+        {0,1,7,0,0,0,0,0,0},
+        {0,3,0,0,5,0,0,0,8},
+        {0,0,0,0,0,0,0,0,0},
+        {0,8,0,0,2,1,0,0,0}};
 
         /* 
         {0,0,0,0,0,0,0,0,0},
@@ -65,8 +65,6 @@ public class sodoku {
         return true;
     }
     public static void main(String[] args) throws AWTException {
-        Point p = MouseInfo.getPointerInfo().getLocation();
-        Scanner scan = new Scanner(System.in);
         Robot robot = new Robot(MouseInfo.getPointerInfo().getDevice());
         boards.add(first_board);
         int size;
@@ -99,27 +97,25 @@ public class sodoku {
             }
         }
         for (int[][] board : boards) {
-            System.out.println(Arrays.deepToString(board));
+            for (int[] row : board) {
+                System.out.println(Arrays.toString(row));
+            }
+            System.out.println();
         }
-        scan.nextLine();
-        int x1 = (int) MouseInfo.getPointerInfo().getLocation().getX();
-        int y1 = (int) MouseInfo.getPointerInfo().getLocation().getY();
-        scan.nextLine();
-        int x2 = (int) MouseInfo.getPointerInfo().getLocation().getX();
-        int y2 = (int) MouseInfo.getPointerInfo().getLocation().getY();
+        int x1 = 1025;
+        int y1 = 296;
+        int x2 = 1571;
+        int y2 = 842;
         for (x = 0; x <= 8; x++) {
             for (y = 0; y <= 8; y++) {
-                try {
-                    Thread.sleep(2000);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                robot.mouseMove(x1 + (x2-x1/8*x) - (int) MouseInfo.getPointerInfo().getLocation().getX(), y1 + (y2-y1/8*y) - (int) MouseInfo.getPointerInfo().getLocation().getY());
+                robot.mouseMove(x1+(x2-x1)/8*x, y1+(y2-y1)/8*y);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                }
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                robot.keyPress(KeyEvent.VK_1);
+                robot.keyPress(KeyStroke.getKeyStroke(String.valueOf(boards.get(0)[y][x])).getKeyCode());
             }
         }
     }
