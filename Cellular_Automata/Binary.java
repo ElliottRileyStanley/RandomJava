@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 public class Binary extends JPanel implements KeyListener {
-    static int width = 100;
-    static int height = 100;
-    static int scale = 8;
+    static final int width = 800;
+    static final int height = 800;
+    static final int scale = 1;
 
     static int wait = 50;
 
@@ -62,7 +62,7 @@ public class Binary extends JPanel implements KeyListener {
     public static void main(String[] args) throws InterruptedException {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                prev_board[x][y] = ((int) (Math.random()*1.5) == 0);
+                prev_board[x][y] = ((int) (Math.random()*2) == 0);
             }
         }
 
