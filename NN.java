@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 class connection {
-    private int weight;
-    private node node;
+    int weight;
+    node node;
 
     public connection (node n, int w) {
         node = n;
@@ -15,9 +15,9 @@ class connection {
 }
 
 class node {
-    private int bias;
-    private int value = 0;
-    private ArrayList<connection> connections;
+    int bias;
+    int value = 0;
+    ArrayList<connection> connections;
 
     public node (int b, ArrayList<connection> c) {
         bias = b;
@@ -39,14 +39,23 @@ class node {
         return value;
     }
 
+    public String toString() {
+        String returned = super.toString() + "\n" + "Value - " + value + "\n" + "Bias - " + bias + "\n" + "Connections - ";
+        for (connection connection : connections) {
+            returned += connection.node;
+            returned += connection.weight;
+        }
+        return returned;
+    }
+
 }
 
 class Network {
-    private ArrayList<node> inputs;
-    private ArrayList<node> nodes;
-    private ArrayList<node> outputs;
+    ArrayList<node> inputs;
+    ArrayList<node> nodes = new ArrayList<node>();
+    ArrayList<node> outputs;
 
-    public Network(ArrayList<node> i, int h, int w) {
+    public Network(ArrayList<node> i, int h, int w, int o) {
         inputs = i;
         ArrayList<node> prev = i;
         ArrayList<node> curr = new ArrayList<node>();
@@ -69,12 +78,11 @@ class Network {
 public class NN {
     public static void main(String[] args) {
         node one = new node(5);
-        node two = new node(-2);
-        ArrayList<connection> connections = new ArrayList<connection>();
-        connections.add(new connection(one, 2));
-        connections.add(new connection(two, -2));
-        node three = new node(6, connections);
-        three.calc();
-        System.out.println(three.getValue());
+        node two = new node(-5);
+        ArrayList<node> input = new ArrayList<node>();
+        input.add(one);
+        input.add(two);
+        Network net = new Network(input, 2, 1, 1);
+        System.out.println(net.nodes.get(0));
     }
 }
