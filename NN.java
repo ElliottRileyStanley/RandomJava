@@ -1,88 +1,145 @@
 import java.util.ArrayList;
 
-class connection {
-    int weight;
-    node node;
+class Connection {
+    Double weight;
+    Node node;
 
-    public connection (node n, int w) {
+    public Connection (Node n, Double w) {
         node = n;
         weight = w;
     }
 
-    public int calc() {
+    public Double calc() {
         return node.getValue() * weight;
     }
 }
 
-class node {
+class Node {
+    static int curId = 1;
+    int id;
     int bias;
-    int value = 0;
-    ArrayList<connection> connections;
+    Double value = 0.0;
+    ArrayList<Connection> connections;
 
-    public node (int b, ArrayList<connection> c) {
+    public Node (int b, ArrayList<Connection> c) {
+        this.id = curId;
+        curId++;
         bias = b;
         connections = c;
     }
 
-    public node (int v) {
+    public Node (Double v) {
+        this.id = curId;
+        curId++;
         value = v;
     }
 
     public void calc() {
-        for (connection connection: connections) {
+        value = 0.0;
+        for (Connection connection: connections) {
             value += connection.calc();
         }
         value += bias;
     }
 
-    public int getValue() {
+    public Double getValue() {
         return value;
     }
 
     public String toString() {
-        String returned = super.toString() + "\n" + "Value - " + value + "\n" + "Bias - " + bias + "\n" + "Connections - ";
-        for (connection connection : connections) {
-            returned += connection.node;
-            returned += connection.weight;
+        String returned = "Node " + id + "\n" + "Value - " + value + "\n" + "Bias - " + bias + "\n" + "---Connections--- (Value * Weight)" + "\n";
+        if (connections != null) {
+            for (Connection connection : connections) {
+                returned += "Node " + connection.node.id + " - " + connection.node.value + "*" + connection.weight + "\n";
+            }
+        } else {
+            returned += "None (:" + "\n";
         }
-        return returned;
+        return returned + "\n";
     }
-
 }
 
 class Network {
-    ArrayList<node> inputs;
-    ArrayList<node> nodes = new ArrayList<node>();
-    ArrayList<node> outputs;
+    ArrayList<Node> inputs;
+    ArrayList<Node> nodes = new ArrayList<Node>();
+    ArrayList<Node> outputs = new ArrayList<Node>();
 
-    public Network(ArrayList<node> i, int h, int w, int o) {
+    public Network(ArrayList<Node> i, int h, int w, int o) {
         inputs = i;
-        ArrayList<node> prev = i;
-        ArrayList<node> curr = new ArrayList<node>();
+        ArrayList<Node> prev = i;
+        ArrayList<Node> curr = new ArrayList<Node>();
         for (int col = 0; col < w; col++) {
             for (int row = 0; row < h; row++) {
-                ArrayList<connection> connections = new ArrayList<connection>();
-                for(node node: prev) {
-                    connections.add(new connection(node, (int) (Math.random() * 21 - 10)));
+                ArrayList<Connection> connections = new ArrayList<Connection>();
+                for(Node node: prev) {
+                    connections.add(new Connection(node, (Math.random() * 21 - 10)));
                 }
-                node node = new node((int)(Math.random() * 21 - 10), connections);
+                Node node = new Node((int)(Math.random() * 21 - 10), connections);
                 nodes.add(node);
                 curr.add(node);
             }
             prev = curr;
-            curr = new ArrayList<node>();
+            curr = new ArrayList<Node>();
+        }
+        for (int row = 0; row < o; row++) {
+            ArrayList<Connection> connections = new ArrayList<Connection>();
+            for(Node node: prev) {
+                connections.add(new Connection(node, (Math.random() * 21 - 10)));
+            }
+            Node node = new Node((int)(Math.random() * 21 - 10), connections);
+            outputs.add(node);
+        }
+    }
+
+    public String toString() {
+        String returned = "";
+        for (Node node : inputs) {
+            returned += node;
+        }
+        for (Node node : nodes) {
+            returned += node;
+        }
+        for (Node node : outputs) {
+            returned += node;
+        }
+        return returned;
+    }
+
+    public void calc() {
+        for (Node node : nodes) {
+            node.calc();
+        }
+        for (Node node : outputs) {
+            node.calc();
+        }
+    }
+
+    public void randomize(Double randomness) {
+        for (Node node : nodes) {
+            for (Connection connection : node.connections) {
+                connection.weight = connection.weight + (Math.random() - 0.5) * randomness * 2;
+            }
+        }
+        for (Node node : outputs) {
+            for (Connection connection : node.connections) {
+                connection.weight = connection.weight + (Math.random() - 0.5) * randomness * 2;
+            }
         }
     }
 }
 
 public class NN {
     public static void main(String[] args) {
-        node one = new node(5);
-        node two = new node(-5);
-        ArrayList<node> input = new ArrayList<node>();
+        Node one = new Node(1.0);
+        Node two = new Node(2.0);
+        ArrayList<Node> input = new ArrayList<Node>();
         input.add(one);
         input.add(two);
-        Network net = new Network(input, 2, 1, 1);
-        System.out.println(net.nodes.get(0));
+        Network net = new Network(input, 2, 1, 10);
+        net.calc();
+        System.out.println(net);
+        net.randomize(0.2);
+        net.calc();
+        System.out.println(net);
     }
 }
