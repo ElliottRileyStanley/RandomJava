@@ -34,6 +34,12 @@ class Node {
         value = v;
     }
 
+    public Node () {
+        this.id = curId;
+        curId++;
+        value = 0.0;
+    }
+
     public void calc() {
         value = 0.0;
         for (Connection connection: connections) {
@@ -130,16 +136,14 @@ class Network {
 
 public class NN {
     public static void main(String[] args) {
-        Node one = new Node(1.0);
-        Node two = new Node(2.0);
         ArrayList<Node> input = new ArrayList<Node>();
-        input.add(one);
-        input.add(two);
-        Network net = new Network(input, 2, 1, 10);
-        net.calc();
-        System.out.println(net);
-        net.randomize(0.2);
-        net.calc();
-        System.out.println(net);
+        for (int i = 0; i < 9; i++) {
+            input.add(new Node());
+        }
+        Network main = new Network(input, 2, 1, 9);
+        while (true) {
+            Network alt = new Network(input, 2, 1, 9);
+
+        }
     }
 }
