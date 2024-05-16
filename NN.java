@@ -156,30 +156,77 @@ class Network {
 
 public class NN {
     static ArrayList<Node> inputs = new ArrayList<Node>();
-    public static int fitness(Network net) {
-        for (int i = 0; i < 9; i++) {
-            inputs.get(i).value = 0.0;
-        }
-        net.calc();
-        Double max = inputs.get(0).value;
-        int max_index = 0;
-        for (int i = 1; i < 9; i++) {
-            if (inputs.get(i).value > max) {
-                max_index = i;
-                max = inputs.get(i).value;
+
+    public static Double fitness(Network net, int games) {
+        Double total = 0.0;
+        for (int t = 0; t < games; t++) {
+            for (int i = 0; i < 9; i++) {
+                inputs.get(i).value = 0.0;
+            }
+            int player = (int) (Math.random() * 2 + 1);
+            while (true) {
+                if (player == 1) {
+                    net.calc();
+                    Double max = Double.MIN_VALUE;
+                    int max_index = -1;
+                    for (int i = 0; i < 9; i++) {
+                        if (inputs.get(i).value == 0) {
+                            continue;
+                        }
+                        if (net.outputs.get(i).value > max) {
+                            max_index = i;
+                            max = net.outputs.get(i).value;
+                        }
+                    }
+                    if (max_index == -1) {
+                        player = 0;
+                        System.out.println(1);
+                        break;
+                    }
+                    inputs.get(max_index).value = 1.0;
+                    player = 2;
+                } else {
+                    int choice = (int) (Math.random() * 9);
+                    while (inputs.get(choice).value == 0) {
+                        choice = (int) (Math.random() * 9);
+                    }
+                    inputs.get(choice).value = 2.0;
+                    player = 1;
+                }
+                if ((inputs.get(0).value != 0 && inputs.get(0).value == inputs.get(1).value && inputs.get(0).value == inputs.get(2).value) ||
+                    (inputs.get(3).value != 0 && inputs.get(3).value == inputs.get(4).value && inputs.get(3).value == inputs.get(5).value) ||
+                    (inputs.get(6).value != 0 && inputs.get(6).value == inputs.get(7).value && inputs.get(6).value == inputs.get(8).value) ||
+                    (inputs.get(0).value != 0 && inputs.get(0).value == inputs.get(3).value && inputs.get(0).value == inputs.get(6).value) ||
+                    (inputs.get(1).value != 0 && inputs.get(1).value == inputs.get(4).value && inputs.get(1).value == inputs.get(7).value) ||
+                    (inputs.get(2).value != 0 && inputs.get(2).value == inputs.get(5).value && inputs.get(2).value == inputs.get(8).value) ||
+                    (inputs.get(0).value != 0 && inputs.get(0).value == inputs.get(4).value && inputs.get(0).value == inputs.get(8).value) || 
+                    (inputs.get(2).value != 0 && inputs.get(2).value == inputs.get(4).value && inputs.get(2).value == inputs.get(6).value)) {
+                    break;
+                }
+                for (Node node : inputs) {
+                    System.out.print(node.value);
+                }
+                System.out.println();
+            }
+            if (player == 1) {
+                total++;
+            } else if (player == 2) {
+                total--;
             }
         }
-        return (int)(Math.random() * 1000000000);
+        return total/games;
     }
     public static void main(String[] args) {
+        TicTacToeBoard board = new TicTacToeBoard();
+
         for (int i = 0; i < 9; i++) {
             inputs.add(new Node());
         }
-        Network net = new Network(inputs, 10, 10, 9);
-        int prevFit = fitness(net);
+        Network net = new Network(inputs, 1, 1, 9);
+        Double prevFit = fitness(net, 5);
         while (true) {
             net.randomize(2.0);
-            int currFit = fitness(net);
+            Double currFit = fitness(net, 5);
             if (currFit > prevFit) {
                 System.out.println("Better strategy found");
                 System.out.println(net);
@@ -189,35 +236,7 @@ public class NN {
             }
         }
 
-        /* 
-        final int N_NETWORKS = 100;
-
-
-        ArrayList<Network> networks = new ArrayList<>();
-        for (int i = 0; i < N_NETWORKS; i++) {
-            networks.add(new Network(i, h, w, o));
-        }
-
-        ArrayList<Integer> scores = new ArrayList<>();
-        for (Network n: networks) {
-            int score = doSimulation(n);
-            scores.add(score);
-        }
-
-        int bestThreshold = 5;
-        int keepThreshold = 2;
-
-
-        for (int i = 0; i < N_NETWORKS; i++) {
-            if (scores.get(i) > bestThreshold) {
-                // do nothing
-            } else if (scores.get(i) > keepThreshold) {
-                networks.get(i).randomize(null);
-            } else {
-                networks.set(i, new Neto)
-            }
-        }
-        */
+        
 
     }
 }
