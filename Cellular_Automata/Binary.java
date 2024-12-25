@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 public class Binary extends JPanel implements KeyListener {
-    static final int width = 800;
-    static final int height = 800;
-    static final int scale = 1;
+    static final int width = 200;
+    static final int height = 200;
+    static final int scale = 4;
 
     static int wait = 50;
 
@@ -38,7 +38,7 @@ public class Binary extends JPanel implements KeyListener {
                         if (prev_board[x+x_dif][y+y_dif] == true) {living++;}
                     }
                 }
-                if (Math.random() > 0.6) {
+                if (Math.random() > 0.7) {
                     if (!prev_board[x][y] && living > 4) {new_board[x][y] = true;}
                     else if (prev_board[x][y] && (living < 4)) {new_board[x][y] = false;}
                     else {new_board[x][y] = prev_board[x][y];}

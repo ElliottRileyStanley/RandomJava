@@ -106,17 +106,6 @@ public class sodoku {
         int y1 = 296;
         int x2 = 1571;
         int y2 = 842;
-        for (x = 0; x <= 8; x++) {
-            for (y = 0; y <= 8; y++) {
-                robot.mouseMove(x1+(x2-x1)/8*x, y1+(y2-y1)/8*y);
-                robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                }
-                robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                robot.keyPress(KeyStroke.getKeyStroke(String.valueOf(boards.get(0)[y][x])).getKeyCode());
-            }
-        }
+        
     }
 }

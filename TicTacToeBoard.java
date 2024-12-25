@@ -30,7 +30,7 @@ public class TicTacToeBoard {
         ArrayList<Integer> result = new ArrayList<>();
         for (int[] row: board) {
             for (int val : row) {
-                result.add(val)
+                result.add(val);
             }
         }
         return result;

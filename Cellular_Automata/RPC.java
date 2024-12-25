@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RPC extends JPanel {
-    static int width = 100;
-    static int height = 100;
+    static int width = 200;
+    static int height = 200;
+    static int scale = 4;
 
     static int[][] prev_board = new int[width][height];
     static int[][] new_board = new int[width][height];
@@ -30,7 +31,7 @@ public class RPC extends JPanel {
                 if (new_board[x][y] == 0) {g.setColor(new Color(255, 0, 0));}
                 else if (new_board[x][y] == 1) {g.setColor(new Color(0, 255, 0));}
                 else if (new_board[x][y] == 2) {g.setColor(new Color(0, 0, 255));}
-                g.fillRect(x, y, 1, 1);
+                g.fillRect(x*scale, y*scale, 1*scale, 1*scale);
             }
         }
         for (int x = 0; x < width; x++) {
